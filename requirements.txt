@@ -7,6 +7,7 @@ cffi==1.14.5
 decorator==5.0.9
 Django==3.2.4
 django-cors-headers==3.7.0
+django-extensions==3.1.3
 ipython==7.24.1
 ipython-genutils==0.2.0
 jedi==0.18.0
@@ -21,6 +22,7 @@ pycparser==2.20
 Pygments==2.9.0
 PyJWT==2.1.0
 PyMySQL==1.0.2
+pyproj==3.1.0
 pytz==2021.1
 six==1.16.0
 sqlparse==0.4.1
