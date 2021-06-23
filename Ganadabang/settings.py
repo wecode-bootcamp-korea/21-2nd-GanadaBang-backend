@@ -29,7 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders'
-
+    'corsheaders',
+    'api.rooms',
+    'users',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -52,10 +53,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware'
-    
 ]
 
-ROOT_URLCONF = 'Ganadabang.urls'
+ROOT_URLCONF = 'ganadabang.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Ganadabang.wsgi.application'
+WSGI_APPLICATION = 'ganadabang.wsgi.application'
 
 
 # Database
