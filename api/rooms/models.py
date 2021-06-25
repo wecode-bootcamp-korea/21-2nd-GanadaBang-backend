@@ -7,6 +7,7 @@ class Location(models.Model):
     city      = models.CharField(max_length=45)
     dong      = models.CharField(max_length=45)
     detail    = models.CharField(max_length=100)
+    dong_code = models.CharField(max_length=45)
     latitude  = models.DecimalField(max_digits=17, decimal_places=14)
     longitude = models.DecimalField(max_digits=17, decimal_places=14)
     utmk_x    = models.DecimalField(max_digits=18, decimal_places=10)
