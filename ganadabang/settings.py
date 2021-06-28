@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path 
-from my_settings import SECRET_KEY, DATABASES
+from my_settings import SECRET_KEY, DATABASES, LOGGING
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -149,33 +149,4 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
-LOGGING = {
-    'disable_existing_loggers': False,
-    'version': 1,
-    'formatters': {
-        'verbose': {
-            'format': '{asctime} {levelname} {message}',
-            'style': '{'
-        },
-    },
-    'handlers': {
-        'console': {
-            'class'     : 'logging.StreamHandler',
-            'formatter' : 'verbose',
-            'level'     : 'DEBUG',
-        },
-        'file': {
-            'level'     : 'DEBUG',
-            'class'     : 'logging.FileHandler',
-            'formatter' : 'verbose',
-            'filename'  : 'debug.log',
-        },
-    },
-    'loggers': {
-        'django.db.backends': {
-            'handlers' : ['console','file'],
-            'level'    : 'DEBUG',
-            'propagate': False,
-        },
-    },
-}
+LOGGING = LOGGING
