@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path 
-from my_settings import SECRET_KEY, DATABASES, LOGGING
-
+from my_settings import SECRET_KEY, DATABASES, LOGGING, SEARCH_API_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = SECRET_KEY
-
+SEARCH_API_KEY = SEARCH_API_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -148,5 +147,4 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
 )
-
 LOGGING = LOGGING
