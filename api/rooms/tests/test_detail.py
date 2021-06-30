@@ -5,9 +5,18 @@ from api.rooms.models import Location, Option, RoomType, TradeType, Room, Option
 class RoomViewTest(TestCase):
     def setUp(self):
 
-        Location.objects.create(id='1',state='서울특별시',city='강남구',dong='삼성동',
-                    detail='테헤란로 427',latitude='37.50637292',longitude='127.0536407',
-                    utmk_x='1945020.83739406',utmk_y='960738.939126282')
+        Location.objects.create(
+            id        = '1',
+            state     = '서울특별시',
+            city      = '강남구',
+            dong      = '삼성동',
+            detail    = '테헤란로 427',
+            latitude  = '37.50637292',
+            longitude = '127.0536407',
+            utmk_x    = '1945020.83739406',
+            utmk_y    = '960738.939126282',
+            dong_code = '11680105'
+        )
 
         RoomType.objects.bulk_create([
             RoomType(id='1',name='ONE_ROOM'),

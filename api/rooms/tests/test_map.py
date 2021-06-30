@@ -5,12 +5,29 @@ from api.rooms.models import Location, RoomType, TradeType, Room, OptionType, Ro
 class MapRoomTestCase(TestCase):
     def setUp(self):
         Location.objects.bulk_create([
-            Location(id='1',state='서울특별시',city='강남구',dong='삼성동',
-                    detail='테헤란로 427',latitude='37.50637292',longitude='127.0536407',
-                    utmk_x='1945020.83739406',utmk_y='960738.939126282'),
-            Location(id='10',state='서울특별시',city='서초구',dong='서초동',
-                    detail='서초대로70길 51',latitude='37.49206332',longitude='127.0249488',
-                    utmk_x='1943445.64310341',utmk_y='958195.044413563')
+            Location(
+                id        = '1',
+                state     = '서울특별시',
+                city      = '강남구',
+                dong      = '삼성동',
+                detail    = '테헤란로 427',
+                latitude  = '37.50637292',
+                longitude = '127.0536407',
+                utmk_x    = '1945020.83739406',
+                utmk_y    = '960738.939126282',
+                dong_code = '11680105'
+            ),
+            Location(
+                id        = '10',
+                state     = '서울특별시',
+                city      = '서초구',
+                dong      = '서초동',
+                detail    = '서초대로70길 51',
+                latitude  = '37.49206332',
+                longitude = '127.0249488',
+                utmk_x    = '1943445.64310341',
+                utmk_y    = '958195.044413563',
+                dong_code = '11650108')
         ])
 
         RoomType.objects.bulk_create([
