@@ -13,6 +13,14 @@ class Location(models.Model):
     utmk_x    = models.DecimalField(max_digits=18, decimal_places=10)
     utmk_y    = models.DecimalField(max_digits=18, decimal_places=10)
 
+    @property
+    def city_code(self):
+        return self.dong_code[0:5]
+
+    @property
+    def state_code(self):
+        return self.dong_code[0:2]
+
     class Meta:
         db_table = 'locations'
 
@@ -41,7 +49,7 @@ class TradeType(models.Model):
 class Room(models.Model):
     title          = models.CharField(max_length=100)
     content        = models.TextField()
-    location       = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location       = models.OneToOneField(Location, on_delete=models.CASCADE)
     room_type      = models.ForeignKey(RoomType, on_delete=models.CASCADE)
     trade_type     = models.ForeignKey(TradeType, on_delete=models.CASCADE)
     monthly_rent   = models.IntegerField(null=True)
