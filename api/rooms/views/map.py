@@ -1,11 +1,15 @@
-import json
-from pyproj            import Transformer
+import json, requests
+from django.db.models.expressions import Value
+from django.db.models.functions.text import Concat
+from pyproj                     import Transformer
 
-from django.db.models  import Q
-from django.views      import View
-from django.http       import JsonResponse
+from django.db.models           import Q, Count, F
+from django.db.models.functions import Left
+from django.views               import View
+from django.http                import JsonResponse
 
-from ..models          import Room, TradeType
+from ..models                   import Room, TradeType
+from ganadabang.settings        import SEARCH_API_KEY
 
 def parse_wgs84_to_utmk(longitude, latitude):
     return Transformer.from_crs("epsg:4326", "epsg:5178").transform(latitude, longitude)
@@ -19,10 +23,10 @@ def room_filter(func):
         room_types  = filters.get('roomType', [])
         trade_types = filters.get('tradeType', [])
         locations  = json.loads(request.GET.get('location', '[]'))
-        dong_code  = request.GET.get('dongCode')
+        dong_code  = request.GET.get('code')
         q          = Q()
 
-        if len(locations) == 2 and \
+        if not dong_code and len(locations) == 2 and \
             len(locations[0]) == 2 and len(locations[1]) == 2:
             sw = parse_wgs84_to_utmk(locations[0][0], locations[0][1])
             ne = parse_wgs84_to_utmk(locations[1][0], locations[1][1])
@@ -58,7 +62,6 @@ def room_filter(func):
             q &= Q(location__dong_code=dong_code)
 
         request.q = q
-        
         return func(self,request, *args, **kwargs)
 
     return wrapper
@@ -104,6 +107,71 @@ class RoomListView(View):
                     'y' : float(room.location.latitude)
                     }
             } for room in rooms]
+        }
+
+        return JsonResponse(result, status=200)
+
+class RoomGroupView(View):
+    @room_filter
+    def get(self, request): 
+
+        zoom = int(request.GET.get('zoom', 13))
+
+        if zoom <= 9 :
+            category = 'L1'
+            value    = {'name'  : F('location__state'), 'code' : Left('location__dong_code', 2)}
+            annotate = {'count' : Count('code'), 'address' : F('location__state')}
+        
+        elif zoom <= 12:
+            category = 'L2'
+            value    = {'name' : F('location__city'), 'code' : Left('location__dong_code', 5)}
+            annotate = {
+                'count'   : Count('code'),
+                'address' : Concat('location__state', Value(' '), 'location__city')
+            }
+        
+        else:
+            category = 'L4'
+            value    = {'name' : F('location__dong'), 'code' : F('location__dong_code')}
+            annotate = {
+                'count'   : Count('code'),
+                'address' : Concat('location__state', Value(' '), 'location__city', Value(' '), 'location__dong')
+            }
+
+        rooms = Room.objects.select_related('location').values(**value).filter(request.q).annotate(**annotate)
+
+        markers = []
+        for room in rooms:
+
+            response = requests.get('http://api.vworld.kr/req/search',
+            {
+                'key'         : SEARCH_API_KEY,
+                'service'     : 'search',
+                'request'     : 'search',
+                'version'     : '2.0',
+                'crs'         : 'EPSG:4326',
+                'size'        : 1000,
+                'offset'      : 0,
+                'limit'       : 1,
+                'type'        : 'district',
+                'format'      : 'json',
+                'errorformat' : 'json',
+                'category'    : category,
+                'query'       : room['address']
+            },  timeout=10).json()
+
+            markers.append(
+                {
+                    'name' : room['name'],
+                    'count': room['count'],
+                    'code' : response['response']['result']['items'][0]['id'],
+                    'lng'  : response['response']['result']['items'][0]['point']['x'],
+                    'lat'  : response['response']['result']['items'][0]['point']['y']
+                }
+            )
+
+        result = {
+            'markers' : markers
         }
 
         return JsonResponse(result, status=200)
