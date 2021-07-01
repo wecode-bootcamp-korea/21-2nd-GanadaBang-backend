@@ -1,11 +1,11 @@
 import json, jwt, requests
 
-from django.views import View
-from django.http  import JsonResponse
-from django.db.utils import IntegrityError
+from django.views        import View
+from django.http         import JsonResponse
+from django.db.utils     import IntegrityError
 
-from my_settings import SECRET_KEY,ALGORITHM
-from .models     import User
+from ganadabang.settings import SECRET_KEY, ALGORITHM
+from .models             import User
 
 class KakaoAPI:
     def __init__(self, access_token):
