@@ -10,19 +10,22 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path 
-from my_settings import SECRET_KEY, DATABASES, LOGGING, SEARCH_API_KEY
+from pathlib     import Path 
+
+from my_settings import SECRET_KEY, DATABASES, LOGGING, \
+                        SEARCH_API_KEY, AWS_S3_ACCESS_KEY_ID, \
+                        AWS_S3_UPLOAD_URL, AWS_S3_SECRET_ACCESS_KEY, \
+                        AWS_STORAGE_BUCKET_NAME, AWS_S3_CUSTOM_DOMAIN, \
+                        ALGORITHM
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = SECRET_KEY
-SEARCH_API_KEY = SEARCH_API_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -40,7 +43,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'api.rooms',
     'api.users',
-    'django_extensions'
+    'django_extensions',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -148,4 +152,18 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
-LOGGING = LOGGING
+DEFAULT_FILE_STORAGE     = 'storages.backends.s3boto3.S3Boto3Storage'
+
+LOGGING        = LOGGING
+SEARCH_API_KEY = SEARCH_API_KEY
+ALGORITHM      = ALGORITHM
+
+AWS_S3_ACCESS_KEY_ID     = AWS_S3_ACCESS_KEY_ID
+AWS_S3_SECRET_ACCESS_KEY = AWS_S3_SECRET_ACCESS_KEY
+AWS_S3_UPLOAD_URL        = AWS_S3_UPLOAD_URL
+AWS_STORAGE_BUCKET_NAME  = AWS_STORAGE_BUCKET_NAME
+AWS_S3_CUSTOM_DOMAIN     = AWS_S3_CUSTOM_DOMAIN
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400',}
+AWS_S3_SECURE_URLS       = False
+AWS_QUERYSTRING_AUTH     = False
+
