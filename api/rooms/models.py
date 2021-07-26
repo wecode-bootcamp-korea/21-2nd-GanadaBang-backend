@@ -8,10 +8,10 @@ class Location(models.Model):
     dong      = models.CharField(max_length=45)
     detail    = models.CharField(max_length=100)
     dong_code = models.CharField(max_length=45)
-    latitude  = models.DecimalField(max_digits=17, decimal_places=14, null=True)
-    longitude = models.DecimalField(max_digits=17, decimal_places=14, null=True)
-    utmk_x    = models.DecimalField(max_digits=18, decimal_places=10, null=True)
-    utmk_y    = models.DecimalField(max_digits=18, decimal_places=10, null=True)
+    latitude  = models.DecimalField(max_digits=17, decimal_places=14)
+    longitude = models.DecimalField(max_digits=17, decimal_places=14)
+    utmk_x    = models.DecimalField(max_digits=18, decimal_places=10)
+    utmk_y    = models.DecimalField(max_digits=18, decimal_places=10)
 
     @property
     def city_code(self):
@@ -49,7 +49,7 @@ class TradeType(models.Model):
 class Room(models.Model):
     title          = models.CharField(max_length=100)
     content        = models.TextField()
-    location       = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location       = models.OneToOneField(Location, on_delete=models.CASCADE)
     room_type      = models.ForeignKey(RoomType, on_delete=models.CASCADE)
     trade_type     = models.ForeignKey(TradeType, on_delete=models.CASCADE)
     monthly_rent   = models.IntegerField(null=True)
