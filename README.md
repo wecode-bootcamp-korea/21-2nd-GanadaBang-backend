@@ -5,14 +5,8 @@
 ### 개발 인원 및 기간
 - 개발기간 : 2021/6/7 ~ 2021/6/18
 - 개발 인원
-  - 프론트엔드
-    - 김건우
-    - 이도윤
-    - 정유정
-  - 백엔드
-    - 김태우
-    - 이아란
-    - 김성규
+  - 프론트엔드 3명, 백엔드 3명
+  
 - GitHub
   - [프론트엔드 GitHub URL](https://github.com/wecode-bootcamp-korea/21-2nd-GanadaBang-frontend)
   - [백엔드 GitHub URL](https://github.com/wecode-bootcamp-korea/21-2nd-GanadaBang-backend)
